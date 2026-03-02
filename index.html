@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Munch Joy - Every Munch Gives You Joy</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>emailjs.init('FhBf-Xy8E48dxDmd5');</script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Poppins',sans-serif;background:#fff8f0;color:#1a0a00;overflow-x:hidden}
+
+    /* ===== NAV ===== */
+    nav{position:fixed;top:0;left:0;right:0;z-index:999;height:66px;
+      background:rgba(255,255,255,0.97);box-shadow:0 2px 16px rgba(255,100,0,0.12);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 24px;backdrop-filter:blur(10px)}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo-img{width:44px;height:44px;border-radius:12px;object-fit:cover;
+      box-shadow:0 2px 10px rgba(255,96,0,0.3)}
+    .logo-text{font-family:'Baloo 2',cursive;font-size:1.5rem;font-weight:900;
+      color:#ff6000;letter-spacing:-0.5px;line-height:1}
+    .logo-text span{color:#d40000}
+    .logo-tagline{font-size:0.6rem;color:#aa5500;font-weight:600;letter-spacing:0.3px;line-height:1}
+    .cart-btn{position:relative;background:#ff6000;color:#fff;border:none;border-radius:30px;
+      padding:9px 22px;font-family:'Baloo 2',cursive;font-size:0.95rem;font-weight:700;
+      cursor:pointer;display:flex;align-items:center;gap:6px;transition:0.2s}
+    .cart-btn:hover{background:#d40000;transform:scale(1.04)}
+    .badge{position:absolute;top:-7px;right:-7px;background:#ffd600;color:#1a0a00;
+      border-radius:50%;width:22px;height:22px;font-size:0.7rem;font-weight:800;
+      display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+
+    /* ===== HERO ===== */
+    .hero{margin-top:66px;min-height:calc(100vh - 66px);
+      background:linear-gradient(135deg,#fff3e0,#ffe0b2,#fff8f0);
+      display:flex;align-items:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;width:500px;height:500px;background:#ff6000;
+      opacity:0.1;border-radius:50%;top:-150px;right:-130px}
+    .hero::after{content:'';position:absolute;width:300px;height:300px;background:#ffd600;
+      opacity:0.12;border-radius:50%;bottom:-80px;left:-80px}
+    .hero-wrap{max-width:1200px;margin:0 auto;width:100%;padding:50px 20px;
+      display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:1}
+    .badge-pill{display:inline-block;background:#ffd600;color:#1a0a00;border-radius:30px;
+      padding:5px 15px;font-size:0.78rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:1px;margin-bottom:16px}
+    .hero-title{font-family:'Baloo 2',cursive;font-size:clamp(2.2rem,5.5vw,3.8rem);
+      font-weight:900;line-height:1.1;margin-bottom:10px}
+    .hero-title .hl{color:#ff6000}
+    .hero-sub{font-size:1.05rem;color:#7a4000;font-weight:500;margin-bottom:28px;line-height:1.6}
+    .shop-btn{display:inline-block;background:linear-gradient(90deg,#ff6000,#d40000);
+      color:#fff;border:none;border-radius:30px;padding:14px 38px;
+      font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:700;cursor:pointer;
+      text-decoration:none;box-shadow:0 6px 20px rgba(255,96,0,0.4);transition:0.2s}
+    .shop-btn:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(255,96,0,0.5)}
+
+    /* ===== CAROUSEL ===== */
+    .carousel-box{position:relative;width:100%;max-width:480px;margin:0 auto}
+    .carousel-mask{border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(255,96,0,0.2);background:#fff}
+    .carousel-track{display:flex;transition:transform 0.55s cubic-bezier(.77,0,.18,1)}
+    .slide{min-width:100%;aspect-ratio:4/3}
+    .slide img{width:100%;height:100%;object-fit:cover;display:block}
+    .c-arrows{position:absolute;top:50%;transform:translateY(-50%);
+      width:100%;display:flex;justify-content:space-between;pointer-events:none}
+    .c-arr{pointer-events:all;background:rgba(255,255,255,0.92);border:none;
+      width:36px;height:36px;border-radius:50%;font-size:1rem;color:#ff6000;
+      box-shadow:0 2px 10px rgba(0,0,0,0.15);cursor:pointer;
+      display:flex;align-items:center;justify-content:center;margin:0 -12px;transition:0.2s}
+    .c-arr:hover{background:#ff6000;color:#fff}
+    .c-dots{display:flex;justify-content:center;gap:7px;margin-top:12px}
+    .c-dot{width:9px;height:9px;border-radius:50%;background:#ffd0a0;border:none;cursor:pointer;transition:0.2s}
+    .c-dot.on{background:#ff6000;transform:scale(1.3)}
+
+    /* ===== FEATURES BAR ===== */
+    .feat-bar{background:linear-gradient(90deg,#ff6000,#d40000);color:#fff;
+      padding:13px 20px;display:flex;justify-content:center;gap:36px;flex-wrap:wrap}
+    .feat{display:flex;align-items:center;gap:7px;font-family:'Baloo 2',cursive;font-size:0.9rem;font-weight:600}
+
+    /* ===== MAKHANA BURST ANIMATION SECTION CSS ===== */
+    .makhana-scene {
+      position: relative;
+      width: 100%;
+      min-height: 600px;
+      background: #1a1a1a; 
+      overflow: hidden;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      font-family: 'Poppins', sans-serif;
+      padding: 40px 20px;
+    }
+    .rain-mk {
+      position: absolute;
+      top: -50px;
+      background: #fff8e7;
+      border-radius: 50%;
+      box-shadow: inset -3px -3px 6px rgba(0,0,0,0.2);
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(700px) rotate(360deg); opacity: 0; }
+    }
+    .packet-wrap2 {
+      position: relative;
+      cursor: pointer;
+      z-index: 10;
+      transition: transform 0.2s ease;
+    }
+    .packet-wrap2:hover {
+      transform: scale(1.05);
+    }
+    .burst-packet {
+      position: relative;
+      width: 200px;
+      z-index: 2;
+    }
+    .burst-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .bmk {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 25px;
+      height: 25px;
+      background: #fff8e7;
+      border-radius: 50%;
+      box-shadow: inset -3px -3px 6px rgba(0,0,0,0.2);
+      opacity: 0;
+    }
+    .burst-container.active .bmk {
+      animation: explode 0.8s ease-out forwards;
+    }
+    @keyframes explode {
+      0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(1.2); opacity: 0; }
+    }
+    .burst-text {
+      max-width: 400px;
+      z-index: 10;
+    }
+    .bt-tag, .bt-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 5px 10px;
+      border-radius: 20px;
+      margin: 5px 5px 5px 0;
+      font-size: 0.85em;
+    }
+    .bt-title {
+      font-size: 2.5em;
+      margin: 10px 0;
+      line-height: 1.2;
+    }
+    .bt-hint {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #ffd600;
+      animation: bounce 1s infinite alternate;
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+
+    /* ===== MAKHANA STORY SECTION ===== */
+    .story-section{padding:90px 20px;background:linear-gradient(180deg,#1a0800 0%,#2d1200 60%,#1a0800 100%);
+      position:relative;overflow:hidden}
+    .story-section::before{content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at 50% 0%,rgba(255,150,0,0.15) 0%,transparent 70%)}
+    .story-title-wrap{text-align:center;margin-bottom:70px}
+    .story-tag{display:inline-block;background:rgba(255,214,0,0.15);color:#ffd600;
+      border:1px solid rgba(255,214,0,0.3);border-radius:30px;
+      padding:5px 18px;font-size:0.78rem;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;margin-bottom:14px}
+    .story-main-title{font-family:'Baloo 2',cursive;font-size:clamp(2rem,5vw,3.2rem);
+      font-weight:900;color:#fff;line-height:1.15}
+    .story-main-title .gold{color:#ffd600}
+    .story-sub{color:rgba(255,220,180,0.7);font-size:1rem;margin-top:10px}
+
+    /* Timeline */
+    .timeline{max-width:900px;margin:0 auto;position:relative}
+    .timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;
+      width:2px;background:linear-gradient(180deg,transparent,#ff6000 10%,#ffd600 50%,#ff6000 90%,transparent);
+      transform:translateX(-50%)}
+    .tl-step{display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;
+      gap:0;margin-bottom:60px;opacity:0;transform:translateY(40px);
+      transition:opacity 0.7s ease,transform 0.7s ease}
+    .tl-step.visible{opacity:1;transform:translateY(0)}
+    .tl-step:nth-child(odd) .tl-content{grid-column:1;text-align:right;padding-right:30px}
+    .tl-step:nth-child(odd) .tl-empty{grid-column:3}
+    .tl-step:nth-child(even) .tl-content{grid-column:3;text-align:left;padding-left:30px}
+    .tl-step:nth-child(even) .tl-empty{grid-column:1}
+    .tl-dot-wrap{grid-column:2;display:flex;justify-content:center;align-items:center;
+      position:relative;z-index:2}
+    .tl-dot{width:54px;height:54px;border-radius:50%;
+      background:linear-gradient(135deg,#ff6000,#d40000);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.6rem;box-shadow:0 0 0 6px rgba(255,96,0,0.2),0 0 30px rgba(255,96,0,0.4);
+      transition:transform 0.3s,box-shadow 0.3s}
+    .tl-step.visible .tl-dot{animation:dotPop 0.5s 0.3s both}
+    @keyframes dotPop{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+    .tl-dot.gold{background:linear-gradient(135deg,#ffd600,#ff9500)}
+    .tl-dot.green{background:linear-gradient(135deg,#22c55e,#16a34a)}
+    .tl-dot.blue{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
+    .tl-content{}
+    .tl-step-num{font-size:0.72rem;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;color:#ff6000;margin-bottom:5px}
+    .tl-step-title{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800;
+      color:#fff;margin-bottom:8px;line-height:1.2}
+    .tl-step-desc{font-size:0.88rem;color:rgba(255,220,180,0.75);line-height:1.7}
+    .tl-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,150,0,0.2);
+      border-radius:16px;padding:18px;backdrop-filter:blur(6px)}
+    .tl-emoji-big{font-size:2.5rem;margin-bottom:10px;display:block}
+
+    /* STORY BOTTOM BANNER */
+    .story-end{text-align:center;margin-top:20px;padding:40px 20px;
+      background:rgba(255,214,0,0.07);border-radius:24px;border:1px solid rgba(255,214,0,0.2)}
+    .story-end-title{font-family:'Baloo 2',cursive;font-size:1.6rem;font-weight:900;color:#ffd600}
+    .story-end-sub{color:rgba(255,220,180,0.7);font-size:0.9rem;margin-top:6px}
+
+    /* ===== PRODUCTS ===== */
+    #products{padding:70px 20px 80px;max-width:1200px;margin:0 auto}
+    .sec-head{text-align:center;margin-bottom:44px}
+    .sec-tag{display:inline-block;background:#fff0e0;color:#ff6000;border-radius:30px;
+      padding:4px 14px;font-size:0.78rem;font-weight:700;letter-spacing:1px;
+      text-transform:uppercase;margin-bottom:10px}
+    .sec-title{font-family:'Baloo 2',cursive;font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900}
+    .sec-title span{color:#ff6000}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px}
+    .card{background:#fffbf5;border-radius:18px;border:1.5px solid #ffe0b2;overflow:hidden;
+      box-shadow:0 6px 24px rgba(255,100,0,0.1);transition:0.25s;
+      opacity:0;transform:translateY(30px)}
+    .card.visible{opacity:1;transform:translateY(0);transition:opacity 0.6s ease,transform 0.6s ease,box-shadow 0.25s,border-color 0.25s}
+    .card:hover{transform:translateY(-5px)!important;box-shadow:0 14px 40px rgba(255,100,0,0.18)}
+    .card-img{width:100%;aspect-ratio:1;overflow:hidden;background:linear-gradient(135deg,#fff3e0,#ffe0b2);
+      position:relative}
+    .card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:0.4s}
+    .card:hover .card-img img{transform:scale(1.07)}
+    .card-badge{position:absolute;top:10px;left:10px;background:#ff6000;color:#fff;
+      border-radius:20px;padding:3px 10px;font-size:0.7rem;font-weight:700}
+    .card-badge.raw{background:#22c55e}
+    .card-body{padding:14px}
+    .card-name{font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:700;margin-bottom:3px}
+    .card-desc{font-size:0.8rem;color:#9a6040;margin-bottom:12px;line-height:1.4}
+    .card-foot{display:flex;align-items:center;justify-content:space-between}
+    .price{font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:800;color:#ff6000}
+    .add-btn{background:linear-gradient(90deg,#ff6000,#d40000);color:#fff;border:none;
+      border-radius:30px;padding:7px 16px;font-family:'Baloo 2',cursive;font-size:0.85rem;
+      font-weight:700;cursor:pointer;transition:0.15s;box-shadow:0 3px 10px rgba(255,96,0,0.3)}
+    .add-btn:hover{transform:scale(1.06)}
+    .qty-ctrl{display:flex;align-items:center;gap:5px}
+    .q-btn{background:#ff6000;color:#fff;border:none;width:26px;height:26px;border-radius:50%;
+      font-size:1rem;font-weight:700;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;transition:0.15s}
+    .q-btn:hover{background:#d40000}
+    .q-num{font-family:'Baloo 2',cursive;font-weight:800;font-size:0.95rem;min-width:18px;text-align:center}
+
+    /* ===== CART ===== */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.48);z-index:1998;
+      opacity:0;pointer-events:none;transition:opacity 0.3s}
+    .overlay.on{opacity:1;pointer-events:all}
+    .drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,100vw);background:#fff;
+      z-index:1999;transform:translateX(100%);
+      transition:transform 0.35s cubic-bezier(.77,0,.18,1);
+      display:flex;flex-direction:column;box-shadow:-6px 0 30px rgba(0,0,0,0.12)}
+    .drawer.on{transform:translateX(0)}
+    .d-head{display:flex;align-items:center;justify-content:space-between;
+      padding:18px 20px;border-bottom:1.5px solid #ffe0b2;background:#fff9f0}
+    .d-head h2{font-family:'Baloo 2',cursive;font-size:1.35rem;font-weight:800;color:#ff6000}
+    .d-close{background:#ffe0b2;border:none;border-radius:50%;width:34px;height:34px;
+      font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s}
+    .d-close:hover{background:#ff6000;color:#fff}
+    .d-body{flex:1;overflow-y:auto;padding:14px 18px}
+    .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
+      height:200px;color:#c07040;gap:8px;text-align:center}
+    .empty span{font-size:2.8rem}
+    .ci{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #ffe8cc}
+    .ci img{width:56px;height:56px;border-radius:10px;object-fit:cover;background:#fff3e0;flex-shrink:0}
+    .ci-info{flex:1}
+    .ci-name{font-weight:700;font-size:0.9rem}
+    .ci-price{font-family:'Baloo 2',cursive;color:#ff6000;font-size:0.85rem;font-weight:700}
+    .ci-qty{display:flex;align-items:center;gap:5px;margin-top:3px}
+    .rm-btn{background:none;border:none;color:#ff4444;font-size:1rem;cursor:pointer;
+      padding:3px;border-radius:6px;transition:0.15s}
+    .rm-btn:hover{background:#fff0f0}
+    .o-form{padding:14px 18px;border-top:1.5px solid #ffe0b2;background:#fffbf5}
+    .o-form h3{font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:800;margin-bottom:10px}
+    .fg{margin-bottom:9px}
+    .fg label{display:block;font-size:0.78rem;font-weight:700;color:#9a6040;margin-bottom:3px}
+    .fg input{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid #ffd0a0;
+      font-family:'Poppins',sans-serif;font-size:0.9rem;outline:none;background:#fff;transition:0.2s}
+    .fg input:focus{border-color:#ff6000}
+    .cart-tot{display:flex;justify-content:space-between;align-items:center;
+      padding:10px 0;margin-bottom:8px}
+    .cart-tot span{font-weight:600;color:#9a6040;font-size:0.9rem}
+    .cart-tot strong{font-family:'Baloo 2',cursive;font-size:1.25rem;color:#ff6000}
+    .send-btn{width:100%;background:linear-gradient(90deg,#ff6000,#d40000);color:#fff;border:none;
+      border-radius:30px;padding:13px;font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:800;
+      cursor:pointer;box-shadow:0 5px 18px rgba(255,96,0,0.4);transition:0.2s;
+      display:flex;align-items:center;justify-content:center;gap:7px}
+    .send-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,96,0,0.5)}
+    .send-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+    .success-box{display:none;text-align:center;padding:16px;background:#f0fff4;
+      border-radius:12px;margin-top:10px;border:1.5px solid #b2ecc8}
+    .success-box.on{display:block}
+    .success-box .ck{font-size:2.4rem}
+    .success-box p{color:#0d5c2e;font-weight:700;margin-top:6px;font-size:0.9rem;line-height:1.6}
+    .err-box{display:none;text-align:center;padding:12px;background:#fff0f0;
+      border-radius:12px;margin-top:10px;border:1.5px solid #ffb2b2}
+    .err-box.on{display:block}
+    .err-box p{color:#a00;font-weight:600;font-size:0.85rem}
+
+    /* ===== FLOATING WHATSAPP ===== */
+    .wa-float{position:fixed;bottom:22px;right:22px;z-index:997;width:54px;height:54px;
+      border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;
+      justify-content:center;font-size:1.5rem;text-decoration:none;
+      box-shadow:0 5px 20px rgba(37,211,102,0.5);animation:bob 2.5s ease-in-out infinite}
+    .wa-float:hover{transform:scale(1.1)!important;animation:none}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .wa-label{position:absolute;right:62px;background:#25d366;color:#fff;white-space:nowrap;
+      padding:5px 12px;border-radius:20px;font-size:0.78rem;font-weight:700;opacity:0;
+      transition:0.2s;box-shadow:0 3px 10px rgba(0,0,0,0.13);pointer-events:none}
+    .wa-float:hover .wa-label{opacity:1}
+
+    /* ===== TOAST ===== */
+    #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);
+      background:#1a0a00;color:#fff;border-radius:30px;padding:11px 24px;font-weight:700;
+      font-size:0.9rem;z-index:9999;opacity:0;transition:transform 0.3s,opacity 0.3s;
+      pointer-events:none;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,0.2)}
+    #toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+
+    /* ===== FOOTER ===== */
+    footer{background:#1a0a00;color:#ffd0a0;text-align:center;padding:30px 20px}
+    .f-logo{font-family:'Baloo 2',cursive;font-size:1.5rem;font-weight:900;color:#ff6000;margin-bottom:5px}
+    .f-logo span{color:#d40000}
+    footer p{font-size:0.82rem;opacity:0.7}
+    footer a{color:#ffd600;text-decoration:none}
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:680px){
+      .hero-wrap{grid-template-columns:1fr;padding:30px 16px 20px}
+      .carousel-box{order:-1;max-width:300px}
+      .hero-text{text-align:center}
+      .feat-bar{gap:14px}
+      .grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}
+      .timeline::before{left:24px}
+      .tl-step{grid-template-columns:48px 1fr;grid-template-rows:auto}
+      .tl-step:nth-child(odd) .tl-content,
+      .tl-step:nth-child(even) .tl-content{grid-column:2;text-align:left;padding-left:20px;padding-right:0}
+      .tl-step:nth-child(odd) .tl-empty,
+      .tl-step:nth-child(even) .tl-empty{display:none}
+      .tl-dot-wrap{grid-column:1;grid-row:1}
+      .tl-dot{width:44px;height:44px;font-size:1.2rem}
+      .makhana-scene { flex-direction: column; text-align: center; gap: 40px; }
+      .burst-text { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">
+    <img class="logo-img" src="logo.svg" alt="MunchJoy Logo">
+    <div>
+      <div class="logo-text">Munch<span>Joy</span></div>
+      <div class="logo-tagline">Every Munch Gives You Joy</div>
+    </div>
+  </a>
+  <button class="cart-btn" onclick="openCart()">
+    &#128722; Cart
+    <span class="badge" id="cartBadge">0</span>
+  </button>
+</nav>
+
+<section class="hero">
+  <div class="hero-wrap">
+    <div class="hero-text">
+      <div class="badge-pill">&#127881; India's Tastiest Roasted Makhana</div>
+      <h1 class="hero-title">Every <span class="hl">Munch</span><br>Gives You <span class="hl">Joy!</span></h1>
+      <p class="hero-sub">Premium roasted makhana in irresistible flavours.<br>Healthy, crunchy & guilt-free snacking!</p>
+      <a href="#products" class="shop-btn">Shop Now &#128717;</a>
+    </div>
+    <div class="carousel-box">
+      <div class="carousel-mask">
+        <div class="carousel-track" id="track">
+          <div class="slide"><img src="perri.png" alt="Peri Peri"></div>
+          <div class="slide"><img src="tomato.png" alt="Tomato"></div>
+          <div class="slide"><img src="raw.png" alt="Raw"></div>
+          <div class="slide"><img src="cheese.png" alt="Cheese"></div>
+          <div class="slide"><img src="cream.png" alt="Cream"></div>
+        </div>
+      </div>
+      <div class="c-arrows">
+        <button class="c-arr" onclick="cSlide(-1)">&#8592;</button>
+        <button class="c-arr" onclick="cSlide(1)">&#8594;</button>
+      </div>
+      <div class="c-dots" id="dots"></div>
+    </div>
+  </div>
+</section>
+
+<div class="feat-bar">
+  <div class="feat"><span>&#128640;</span> Fast Delivery</div>
+  <div class="feat"><span>&#9989;</span> 100% Natural</div>
+  <div class="feat"><span>&#128170;</span> High Protein</div>
+  <div class="feat"><span>&#127807;</span> Gluten Free</div>
+</div>
+
+<section class="makhana-scene" id="burstScene">
+  <div class="rain-mk" style="left:6%;animation-duration:5s;animation-delay:0s;width:18px;height:18px"></div>
+  <div class="rain-mk" style="left:18%;animation-duration:4.2s;animation-delay:1.5s;width:24px;height:24px"></div>
+  <div class="rain-mk" style="left:30%;animation-duration:6s;animation-delay:0.8s;width:16px;height:16px"></div>
+  <div class="rain-mk" style="left:45%;animation-duration:4.8s;animation-delay:2.5s;width:20px;height:20px"></div>
+  <div class="rain-mk" style="left:58%;animation-duration:5.5s;animation-delay:0.3s;width:26px;height:26px"></div>
+  <div class="rain-mk" style="left:70%;animation-duration:4s;animation-delay:3.5s;width:18px;height:18px"></div>
+  <div class="rain-mk" style="left:82%;animation-duration:6.5s;animation-delay:1s;width:22px;height:22px"></div>
+  <div class="rain-mk" style="left:92%;animation-duration:4.5s;animation-delay:2s;width:20px;height:20px"></div>
+  <div class="scene-glow2"></div>
+  <div class="packet-wrap2">
+    <div class="rings-wrap">
+      <div class="rp"></div><div class="rp"></div><div class="rp"></div>
+    </div>
+    <div class="burst-container" id="bc">
+      <div class="bmk"></div><div class="bmk"></div><div class="bmk"></div>
+      <div class="bmk"></div><div class="bmk"></div><div class="bmk"></div>
+      <div class="bmk"></div><div class="bmk"></div><div class="bmk"></div>
+      <div class="bmk"></div><div class="bmk"></div><div class="bmk"></div>
+    </div>
+    <div class="burst-packet" id="burstPacket" onclick="doBurst()" title="Tap me!">
+      <div class="bp-shine"></div>
+      <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bpg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff8c00"/><stop offset="45%" stop-color="#ff6000"/><stop offset="100%" stop-color="#b03000"/>
+          </linearGradient>
+          <linearGradient id="btg" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffe600"/><stop offset="100%" stop-color="#ff9500"/>
+          </linearGradient>
+          <filter id="bgl"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <path d="M28 42 Q100 22 172 42 L176 57 Q100 38 24 57Z" fill="url(#btg)"/>
+        <path d="M24 57 Q100 38 176 57 L184 228 Q100 246 16 228Z" fill="url(#bpg)"/>
+        <path d="M24 57 Q100 38 176 57 L184 228 Q100 246 16 228Z" fill="linear-gradient(90deg,rgba(255,255,255,0.15),rgba(255,255,255,0))"/>
+        <path d="M34 82 Q100 70 166 82" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" fill="none"/>
+        <rect x="33" y="97" width="134" height="108" rx="12" fill="rgba(0,0,0,0.12)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <circle cx="100" cy="132" r="30" fill="rgba(255,214,0,0.1)" stroke="rgba(255,214,0,0.35)" stroke-width="1.5"/>
+        <circle cx="100" cy="132" r="22" fill="url(#btg)" filter="url(#bgl)"/>
+        <circle cx="93" cy="126" r="7" fill="rgba(255,255,255,0.3)"/>
+        <text x="100" y="180" text-anchor="middle" font-family="'Baloo 2',cursive" font-size="14.5" font-weight="900" fill="white">MunchJoy</text>
+        <text x="100" y="194" text-anchor="middle" font-family="'Poppins',sans-serif" font-size="7" fill="rgba(255,255,200,0.8)" letter-spacing="1.8">ROASTED MAKHANA</text>
+        <path d="M16 228 Q100 246 184 228 L180 246 Q100 262 20 246Z" fill="url(#btg)"/>
+      </svg>
+      <div class="bp-steam"></div><div class="bp-steam"></div><div class="bp-steam"></div>
+    </div>
+  </div>
+  <div class="burst-text">
+    <div class="bt-tag">&#127807; Pure &amp; Natural</div>
+    <h2 class="bt-title">Packed with <span style="color:#ffd600">Crunch</span>,<br>Bursting with <span style="color:#ff6000;text-shadow:0 0 30px rgba(255,96,0,0.6)">Flavour!</span></h2>
+    <p class="bt-desc">Every pack of MunchJoy is loaded with premium roasted makhana — crispy, light &amp; irresistibly seasoned. Zero guilt. 100% joy.</p>
+    <div class="bt-badges">
+      <div class="bt-badge">&#127807; Gluten Free</div>
+      <div class="bt-badge">&#128170; High Protein</div>
+      <div class="bt-badge">&#10024; Zero Maida</div>
+      <div class="bt-badge">&#128293; Bold Flavours</div>
+    </div>
+    <p class="bt-hint">&#8593; TAP THE PACKET &#8593;</p>
+  </div>
+</section>
+
+<section class="story-section">
+  <div class="story-title-wrap">
+    <div class="story-tag">&#127807; Farm to Pack</div>
+    <h2 class="story-main-title">The <span class="gold">Makhana</span> Journey</h2>
+    <p class="story-sub">From the depths of Bihar's ponds to your snack box — every step crafted with love</p>
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-step">
+      <div class="tl-content">
+        <div class="tl-card">
+          <span class="tl-emoji-big">&#127807;</span>
+          <div class="tl-step-num">Step 01</div>
+          <div class="tl-step-title">Harvesting from Sacred Ponds</div>
+          <div class="tl-step-desc">Makhana (Fox Nuts) grow in the still, shallow ponds of Bihar — India's makhana capital. Farmers wade into chest-deep water to hand-pick the lotus seeds, usually at dawn when the water is calmest.</div>
+        </div>
+      </div>
+      <div class="tl-dot-wrap"><div class="tl-dot green">&#127807;</div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <div class="tl-step">
+      <div class="tl-empty"></div>
+      <div class="tl-dot-wrap"><div class="tl-dot gold">&#9728;</div></div>
+      <div class="tl-content">
+        <div class="tl-card">
+          <span class="tl-emoji-big">&#9728;</span>
+          <div class="tl-step-num">Step 02</div>
+          <div class="tl-step-title">Sun Drying</div>
+          <div class="tl-step-desc">The freshly collected lotus seeds are spread on clean mats and dried under the scorching sun for 1–2 days. This reduces moisture and prepares them for the next stage of processing.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-step">
+      <div class="tl-content">
+        <div class="tl-card">
+          <span class="tl-emoji-big">&#128293;</span>
+          <div class="tl-step-num">Step 03</div>
+          <div class="tl-step-title">The Magic Roasting</div>
+          <div class="tl-step-desc">Dried seeds are roasted in clay pots or iron pans at very high temperatures. At the perfect moment, the outer shell pops open — just like popcorn — revealing the soft, white, fluffy makhana inside! &#127881;</div>
+        </div>
+      </div>
+      <div class="tl-dot-wrap"><div class="tl-dot" style="background:linear-gradient(135deg,#ff6000,#ff9500)">&#128293;</div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <div class="tl-step">
+      <div class="tl-empty"></div>
+      <div class="tl-dot-wrap"><div class="tl-dot blue">&#128247;</div></div>
+      <div class="tl-content">
+        <div class="tl-card">
+          <span class="tl-emoji-big">&#128202;</span>
+          <div class="tl-step-num">Step 04</div>
+          <div class="tl-step-title">Grading & Quality Check</div>
+          <div class="tl-step-desc">Skilled workers carefully sort and grade the popped makhana by size and quality. Only the finest, crunchiest pops make the cut for MunchJoy. Broken or small ones are separated out at this stage.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-step">
+      <div class="tl-content">
+        <div class="tl-card">
+          <span class="tl-emoji-big">&#127859;</span>
+          <div class="tl-step-num">Step 05</div>
+          <div class="tl-step-title">Flavouring with Love</div>
+          <div class="tl-step-desc">This is where the magic happens! Premium quality makhana is slow-roasted in just the right amount of cold-pressed oil and tossed with our secret spice blends — Tangy Tomato, Say Cheese, Peri-Peri, and Cream & Onion. Each batch is crafted by hand.</div>
+        </div>
+      </div>
+      <div class="tl-dot-wrap"><div class="tl-dot" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">&#127859;</div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <div class="tl-step">
+      <div class="tl-empty"></div>
+      <div class="tl-dot-wrap"><div class="tl-dot gold">&#128230;</div></div>
+      <div class="tl-content">
+        <div class="tl-card">
+          <span class="tl-emoji-big">&#128230;</span>
+          <div class="tl-step-num">Step 06</div>
+          <div class="tl-step-title">Packed Fresh, Delivered with Joy</div>
+          <div class="tl-step-desc">Finally, the freshly flavoured makhana is sealed in airtight packs to lock in the crunch and freshness. Every pack of MunchJoy is your ticket to a guilt-free, delicious snacking experience. &#127881;</div>
+        </div>
+      </div>
+    </div>
+
+  </div><div class="story-end">
+    <div class="story-end-title">&#9733; Pure. Natural. Delicious. &#9733;</div>
+    <div class="story-end-sub">From Bihar's ponds to your hands — crafted with care at every step</div>
+  </div>
+</section>
+
+<section id="products">
+  <div class="sec-head">
+    <div class="sec-tag">Our Products</div>
+    <h2 class="sec-title">Pick Your <span>Flavour</span> &#128293;</h2>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<footer>
+  <div class="f-logo">Munch<span>Joy</span></div>
+  <p>Every Munch Gives You Joy &nbsp;|&nbsp; <a href="/cdn-cgi/l/email-protection#294b405d434650434447694e44484045074a4644"><span class="__cf_email__" data-cfemail="26444f524c495f4c4b4866414b474f4a0845494b">[email&#160;protected]</span></a></p>
+  <p style="margin-top:6px">&#169; 2025 MunchJoy. All rights reserved.</p>
+</footer>
+
+<a class="wa-float" href="https://wa.me/9954135842" target="_blank" rel="noopener">
+  &#128172;
+  <span class="wa-label">Chat with us!</span>
+</a>
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<div class="drawer" id="drawer">
+  <div class="d-head">
+    <h2>&#128722; Your Cart</h2>
+    <button class="d-close" onclick="closeCart()">&#10005;</button>
+  </div>
+  <div class="d-body" id="cartBody">
+    <div class="empty" id="emptyMsg">
+      <span>&#128722;</span>
+      <p><strong>Your cart is empty!</strong></p>
+      <p style="font-size:0.82rem">Add some yummy makhana &#128523;</p>
+    </div>
+    <div id="itemsList"></div>
+  </div>
+  <div id="formSection" style="display:none">
+    <div class="o-form">
+      <h3>&#128203; Your Details</h3>
+      <div class="fg">
+        <label>&#128100; Full Name *</label>
+        <input type="text" id="cName" placeholder="Enter your full name">
+      </div>
+      <div class="fg">
+        <label>&#128241; Phone Number *</label>
+        <input type="tel" id="cPhone" placeholder="Enter your phone number" maxlength="15">
+      </div>
+      <div class="cart-tot">
+        <span>Total Amount</span>
+        <strong id="totalAmt">Rs.0</strong>
+      </div>
+      <button class="send-btn" id="sendBtn" onclick="sendOrder()">&#128233; Send Order</button>
+      <div class="success-box" id="successBox">
+        <div class="ck">&#9989;</div>
+        <p><strong>Order placed successfully!</strong><br>We'll contact you soon. &#128522;</p>
+      </div>
+      <div class="err-box" id="errBox">
+        <p id="errMsg">Something went wrong. Please try again.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ===== EmailJS ===== */
+var EJS_SERVICE  = 'service_9zpjla7';
+var EJS_TEMPLATE = 'template_hzdas7f';
+
+/* ===== BURST ANIMATION FUNCTION ===== */
+function doBurst() {
+  const burstContainer = document.getElementById('bc');
+  const particles = burstContainer.querySelectorAll('.bmk');
+  
+  particles.forEach(particle => {
+    const angle = Math.random() * Math.PI * 2; 
+    const distance = 100 + Math.random() * 150; 
+    
+    const tx = Math.cos(angle) * distance + 'px';
+    const ty = Math.sin(angle) * distance + 'px';
+    
+    particle.style.setProperty('--tx', tx);
+    particle.style.setProperty('--ty', ty);
+  });
+
+  burstContainer.classList.remove('active');
+  setTimeout(() => {
+    burstContainer.classList.add('active');
+  }, 10);
+}
+
+/* ===== PRODUCTS ===== */
+var products = [
+  {id:1, name:"Tangy Tomato",    desc:"Bold tangy tomato burst in every crunch",   price:50,  tag:"Bestseller", raw:false, img:"tomato.png"},
+  {id:2, name:"Say Cheese",      desc:"Rich, creamy cheese makhana you'll love",    price:50,  tag:"Fan Fav",    raw:false, img:"cheese.png"},
+  {id:3, name:"Peri-Peri",       desc:"Fiery peri-peri spice for bold snackers",    price:50,  tag:"Spicy &#128293;", raw:false, img:"perri.png"},
+  {id:4, name:"Cream & Onion",   desc:"Smooth cream with a delicious onion twist",  price:50,  tag:"Classic",    raw:false, img:"cream.png"},
+  {id:5, name:"Raw Makhana",     desc:"Pure, natural makhana — unflavoured & clean",price:200, tag:"Natural",    raw:true,  img:"raw.png"}
+];
+
+var cart = {};
+
+/* ===== RENDER PRODUCTS ===== */
+function renderProducts() {
+  var g = document.getElementById('grid');
+  g.innerHTML = '';
+  products.forEach(function(p, i) {
+    var qty = cart[p.id] ? cart[p.id].qty : 0;
+    var div = document.createElement('div');
+    div.className = 'card';
+    div.style.transitionDelay = (i * 0.08) + 's';
+    var btnHtml = qty === 0
+      ? '<button class="add-btn" onclick="addCart(' + p.id + ')">+ Add</button>'
+      : '<div class="qty-ctrl">' +
+          '<button class="q-btn" onclick="chQty(' + p.id + ',-1)">-</button>' +
+          '<span class="q-num">' + qty + '</span>' +
+          '<button class="q-btn" onclick="chQty(' + p.id + ',1)">+</button>' +
+        '</div>';
+    div.innerHTML =
+      '<div class="card-img">' +
+        '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy">' +
+        '<div class="card-badge' + (p.raw ? ' raw' : '') + '">' + p.tag + '</div>' +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="card-name">' + p.name + '</div>' +
+        '<div class="card-desc">' + p.desc + '</div>' +
+        '<div class="card-foot"><div class="price">Rs.' + p.price + '</div>' + btnHtml + '</div>' +
+      '</div>';
+    g.appendChild(div);
+  });
+  observeCards();
+}
+
+function addCart(id) {
+  var p = products.find(function(x){return x.id===id;});
+  if (!cart[id]) cart[id] = {id:p.id, name:p.name, price:p.price, img:p.img, qty:0};
+  cart[id].qty++;
+  updateBadge();
+  renderProducts();
+  showToast(p.name + ' added to cart! &#127881;');
+}
+
+function chQty(id, d) {
+  if (!cart[id]) return;
+  cart[id].qty += d;
+  if (cart[id].qty <= 0) delete cart[id];
+  updateBadge();
+  renderProducts();
+  renderCart();
+}
+
+function updateBadge() {
+  var t = 0;
+  Object.values(cart).forEach(function(i){t+=i.qty;});
+  document.getElementById('cartBadge').textContent = t;
+}
+
+/* ===== CART ===== */
+function openCart() {
+  document.getElementById('overlay').classList.add('on');
+  document.getElementById('drawer').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  renderCart();
+}
+function closeCart() {
+  document.getElementById('overlay').classList.remove('on');
+  document.getElementById('drawer').classList.remove('on');
+  document.body.style.overflow = '';
+}
+function renderCart() {
+  var items = Object.values(cart);
+  var eEl = document.getElementById('emptyMsg');
+  var lEl = document.getElementById('itemsList');
+  var fEl = document.getElementById('formSection');
+  if (!items.length) {
+    eEl.style.display='flex'; lEl.innerHTML=''; fEl.style.display='none'; return;
+  }
+  eEl.style.display='none'; fEl.style.display='block';
+  var total=0, html='';
+  items.forEach(function(item){
+    total += item.price * item.qty;
+    html += '<div class="ci">' +
+      '<img src="'+item.img+'" alt="'+item.name+'">' +
+      '<div class="ci-info">' +
+        '<div class="ci-name">'+item.name+'</div>' +
+        '<div class="ci-price">Rs.'+item.price+' x '+item.qty+' = Rs.'+(item.price*item.qty)+'</div>' +
+        '<div class="ci-qty"><button class="q-btn" onclick="chQty('+item.id+',-1)">-</button>' +
+        '<span class="q-num">'+item.qty+'</span>' +
+        '<button class="q-btn" onclick="chQty('+item.id+',1)">+</button></div>' +
+      '</div>' +
+      '<button class="rm-btn" onclick="removeItem('+item.id+')" title="Remove">&#128465;</button>' +
+    '</div>';
+  });
+  lEl.innerHTML = html;
+  document.getElementById('totalAmt').textContent = 'Rs.'+total;
+  document.getElementById('successBox').classList.remove('on');
+  document.getElementById('errBox').classList.remove('on');
+  var btn = document.getElementById('sendBtn');
+  btn.disabled = false;
+  btn.innerHTML = '&#128233; Send Order';
+}
+function removeItem(id) {
+  delete cart[id];
+  updateBadge(); renderProducts(); renderCart();
+}
+
+/* ===== SEND ORDER ===== */
+function sendOrder() {
+  var name  = document.getElementById('cName').value.trim();
+  var phone = document.getElementById('cPhone').value.trim();
+  if (!name)  { showToast('Please enter your name'); return; }
+  if (!phone || phone.length<6) { showToast('Please enter a valid phone number'); return; }
+  var items = Object.values(cart);
+  if (!items.length) { showToast('Your cart is empty!'); return; }
+  var total=0;
+  items.forEach(function(i){total+=i.price*i.qty;});
+  var orderItems = items.map(function(i){
+    return i.name+' x'+i.qty+' = Rs.'+(i.price*i.qty);
+  }).join('\n');
+  var btn = document.getElementById('sendBtn');
+  btn.disabled=true; btn.innerHTML='&#9203; Sending...';
+  document.getElementById('errBox').classList.remove('on');
+  emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
+    customer_name: name,
+    customer_phone: phone,
+    order_items: orderItems,
+    total_amount: 'Rs.'+total
+  }).then(function(){
+    document.getElementById('successBox').classList.add('on');
+    btn.innerHTML='&#9989; Order Sent!';
+    showToast('Order sent successfully!');
+    setTimeout(function(){
+      cart={}; updateBadge(); renderProducts();
+      document.getElementById('cName').value='';
+      document.getElementById('cPhone').value='';
+      renderCart();
+    }, 3500);
+  }).catch(function(err){
+    console.error(err);
+    btn.disabled=false; btn.innerHTML='&#128233; Send Order';
+    document.getElementById('errMsg').textContent='Failed to send: '+(err.text||'Please try again.');
+    document.getElementById('errBox').classList.add('on');
+  });
+}
+
+/* ===== CAROUSEL ===== */
+var cur=0, numS=5, autoT;
+function initCarousel(){
+  var de=document.getElementById('dots'); de.innerHTML='';
+  for(var i=0;i<numS;i++){
+    (function(idx){
+      var d=document.createElement('button');
+      d.className='c-dot'+(idx===0?' on':'');
+      d.onclick=function(){goTo(idx);};
+      de.appendChild(d);
+    })(i);
+  }
+  autoT=setInterval(function(){goTo(cur+1);},3200);
+}
+function goTo(n){
+  cur=((n%numS)+numS)%numS;
+  document.getElementById('track').style.transform='translateX(-'+(cur*100)+'%)';
+  document.querySelectorAll('.c-dot').forEach(function(d,i){d.classList.toggle('on',i===cur);});
+}
+function cSlide(dir){
+  clearInterval(autoT); goTo(cur+dir);
+  autoT=setInterval(function(){goTo(cur+1);},3200);
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+function observeSteps(){
+  var steps = document.querySelectorAll('.tl-step');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting) e.target.classList.add('visible');
+    });
+  },{threshold:0.2});
+  steps.forEach(function(s){obs.observe(s);});
+}
+function observeCards(){
+  var cards = document.querySelectorAll('.card:not(.visible)');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting) e.target.classList.add('visible');
+    });
+  },{threshold:0.1});
+  cards.forEach(function(c){obs.observe(c);});
+}
+
+/* ===== TOAST ===== */
+var toastT;
+function showToast(msg){
+  var el=document.getElementById('toast');
+  el.innerHTML=msg; el.classList.add('on');
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){el.classList.remove('on');},2500);
+}
+
+/* ===== INIT ===== */
+renderProducts();
+initCarousel();
+observeSteps();
+</script>
+</body>
+</html>
